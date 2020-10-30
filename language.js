@@ -20,7 +20,7 @@ var langjs = {
 
 		var lang = this.readCookie("lang");
 		if(lang==null || lang === undefined || lang == ""){
-			this.setLanguage(Object.keys(languages)[0]);
+			this.setLanguage(Object.keys(this.languages)[0]);
 		}else{
 			this.setLanguage(lang);
 		}
