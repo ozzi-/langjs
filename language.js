@@ -14,14 +14,17 @@ var langjs = {
 	currentLanguage : "",
 
 	initLang: function (languagesToInit){
+		console.log("langjs init");
 		for (var i = 0; i < languagesToInit.length; i++) {
 			this.languages[languagesToInit[i]] = {};
 		}
 
 		var lang = this.readCookie("lang");
 		if(lang==null || lang === undefined || lang == ""){
+			console.log("langjs lang cookie is not set, defaulting");
 			this.setLanguage(Object.keys(this.languages)[0]);
 		}else{
+			console.log("langjs using " +lang);
 			this.setLanguage(lang);
 		}
 	},
