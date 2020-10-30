@@ -1,0 +1,26 @@
+<html>
+ 	<script src="language.js"></script> 
+	
+ 	<!-- example on how to add translation into HTML -->
+	Surname = <script>fillString('surname')</script>.
+	<br>
+	Name = <script>fillString('name')</script>.
+	<br>
+	<br>
+	
+	<!-- example on how to get in a JS context / change language -->
+	<button onclick="saySurname()">Say Surname</button>
+	<button onclick="getCurrentLang()">Get Current Language</button>
+	<button onclick="setLanguage('de',true);">Set Language to German</button>
+	<button onclick="setLanguage('fr',true);">Set Language to French</button>
+	
+	<script>
+		function saySurname(){
+			alert("Surname is = "+getString('surname'));			
+		}
+
+		function getCurrentLang(){
+			alert(currentLanguage);
+		}
+	</script>
+</html>
