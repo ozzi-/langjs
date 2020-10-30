@@ -4,32 +4,43 @@
 	<script>
 		langjs.initLang(["de","fr"]); // first language will be the default 
 		langjs.addTranslation("surname","de","Nachnamen");
-		langjs.addTranslation("name","de","Nachnamen");
+		langjs.addTranslation("name","de","Name");
 		langjs.addTranslation("surname","fr","Nom de famille");
 		langjs.addTranslation("name","fr","Nom");
 	</script>
+	<body>
+	 	<!-- example on how to add translation into HTML -->
+		Surname = <script>langjs.fillString('surname')</script>.
+		<br>
+		Name = <script>langjs.fillString('name')</script>.
+		<br><br>
 
- 	<!-- example on how to add translation into HTML -->
-	Surname = <script>langjs.fillString('surname')</script>.
-	<br>
-	Name = <script>langjs.fillString('name')</script>.
-	<br>
-	<br>
-	
-	<!-- example on how to get in a JS context / change language -->
-	<button onclick="saySurname()">Say Surname</button>
-	<button onclick="getCurrentLang()">Get Current Language</button>
-	<button onclick="langjs.setLanguage('de',true);">Set Language to German</button>
-	<button onclick="langjs.setLanguage('fr',true);">Set Language to French</button>
-	
+		<!-- example of automatic injection using the {%TRANSLATION_KEY%} placeholder -->
+		Name (injected) = {%name%}
+		<br><br>
+		
+		<!-- example on how to get in a JS context / change language -->
+		<button onclick="saySurname()">Say Surname</button>
+		<button onclick="getCurrentLang()">Get Current Language</button>
+		<button onclick="langjs.setLanguage('de',true);">Set Language to German</button>
+		<button onclick="langjs.setLanguage('fr',true);">Set Language to French</button>
+		<button onclick="injectString()">Inject into string during runtime</button>
+	</body>
+
 	<script>
 		function saySurname(){
-			alert("Surname is = "+langjs.getString('surname'));			
+			alert("Surname is = "+langjs.getString('surname'));
 		}
 
 		function getCurrentLang(){
 			alert(langjs.getCurrentLanguage());
 		}
+
+		function injectString(){
+			alert(langjs.injectIntoString("injected into the alert string ... { % surname % } = {%surname%}"));
+		}
+
+
 	</script>
 
 </html>

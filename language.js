@@ -1,11 +1,15 @@
 // ************
 // TRANSLATIONS
 // ************
+ "use strict";
+
+window.addEventListener('load', (event) => {
+	langjs.injectIntoBody();
+});
 
 var langjs = {
 
 	languages: {},
-
 
 	// ****
 	// CODE
@@ -31,6 +35,19 @@ var langjs = {
 
 	getCurrentLanguage: function (){
 		return this.currentLanguage;
+	},
+
+	injectIntoBody: function(){
+		var body = window.document.body.innerHTML;
+		window.document.body.innerHTML = this.injectIntoString(body);
+	},
+
+	injectIntoString: function(strng){
+		var result = strng.replace(/{%(.*?)%}/g, function(match, token) {
+			return langjs.getString(token);
+
+		});
+		return result;
 	},
 
 	addTranslation: function (key,lang,val){
