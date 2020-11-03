@@ -3,9 +3,9 @@
 // ************
  "use strict";
 
-window.addEventListener('load', (event) => {
-	langjs.injectIntoBody();
-});
+window.addEventListener('load', function() {       
+  langjs.injectIntoBody();
+});   
 
 var langjs = {
 
