@@ -3,7 +3,7 @@
 // ************
  "use strict";
 
-window.addEventListener('load', (event) => {
+window.addEventListener('load', function() {
 	langjs.injectIntoBody();
 });
 
@@ -29,10 +29,22 @@ var langjs = {
 
 		var lang = this.readCookie("lang");
 		if(lang==null || lang === undefined || lang == ""){
-			console.log("langjs lang cookie is not set, defaulting");
+			var prefLang = navigator.languages[1];
+			if(prefLang !== undefined){
+				console.log("langjs detected user language to be '"+prefLang+"'");
+				if(this.languages[prefLang]!==undefined){
+					console.log("langjs using '"+prefLang+"' by detection");
+					this.setLanguage(prefLang);
+					return;
+				}else{
+					console.log("langjs language defaulting as '"+prefLang+"' is not defined");
+				}
+			}else{
+				console.log("langjs lang cookie is not set, defaulting");
+			}
 			this.setLanguage(Object.keys(this.languages)[0]);
 		}else{
-			console.log("langjs using " +lang);
+			console.log("langjs using '"+lang+"' by cookie");
 			this.setLanguage(lang);
 		}
 	},
@@ -83,7 +95,11 @@ var langjs = {
 	addTranslation: function (key,lang,val,escapeHTML){
 		escapeHTML = (typeof escapeHTML !== 'undefined')?escapeHTML:false;
 		val = escapeHTML ? this.escapeHtml(val) : val;
-		this.languages[lang][key] = val;
+		if(this.languages[lang] == undefined){
+			console.error("langjs Cannot add translation '"+keyy+"' for language '"+lang+"' as it was not initialized");
+		}else{
+			this.languages[lang][key] = val;	
+		}
 	},
 
 	setLanguage: function (lang,reload){
@@ -112,6 +128,10 @@ var langjs = {
 		}
 	},
 
+	// *******
+	// HELPERS
+	// *******
+
 	escapeHtml: function (inp){
 		var text = document.createTextNode(inp);
 		var p = document.createElement('p');
@@ -119,9 +139,6 @@ var langjs = {
 		return p.innerHTML;
 	},
 
-	// *******
-	// HELPERS
-	// *******
 	readCookie: function (name) {
 		var nameEQ = name + "=";
 		var ca = document.cookie.split(';');
