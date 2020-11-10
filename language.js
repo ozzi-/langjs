@@ -3,22 +3,25 @@
 // ************
  "use strict";
 
-window.addEventListener('load', function () {
+window.addEventListener('load', (event) => {
 	langjs.injectIntoBody();
 });
+
 
 var langjs = {
 
 	languages: {},
-	
+	fast: false,
+
 	// ****
 	// CODE
 	// ****
 
 	currentLanguage : "",
 
-	initLang: function (languagesToInit){
+	initLang: function (languagesToInit, fast){
 		console.log("langjs init");
+		this.fast = fast;
 
 		for (var i = 0; i < languagesToInit.length; i++) {
 			this.languages[languagesToInit[i]] = {};
@@ -40,7 +43,33 @@ var langjs = {
 
 	injectIntoBody: function(){
 		var body = window.document.body.innerHTML;
-		window.document.body.innerHTML = this.injectIntoString(body);	
+		if(this.fast){
+			window.document.body.innerHTML = this.injectIntoString(body);	
+		}else{
+			var childNodes = document.body.childNodes;
+			this.translateInDom(childNodes);
+		}
+		var doneEvent = new CustomEvent("langjsDoneTranslating");
+		window.document.dispatchEvent(doneEvent);
+	},
+
+	translateInDom: function(nodes){
+		for (var i = 0; i < nodes.length; i++) { 
+				var curNode = nodes[i];
+				if(curNode.attributes !== undefined){
+					var curNodeAttributes = curNode.attributes;
+					for (var ii = 0; ii < curNodeAttributes.length; ii++) {
+						curNodeAttributes[ii].nodeValue = this.injectIntoString(curNodeAttributes[ii].nodeValue);
+					}	
+				}
+			
+				if(curNode.nodeType == 3){
+					curNode.data = this.injectIntoString(curNode.data);
+				}
+				if(curNode.nodeType == 1){
+					this.translateInDom(curNode.childNodes);
+				}
+			}
 	},
 
 	injectIntoString: function(strng){
