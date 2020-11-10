@@ -19,11 +19,15 @@ langjs.addTranslation("surname","fr","Nom de famille");
 langjs.addTranslation("name","fr","Nom");
 ```
 
+### Modes
 When using initLang without a second parameter, the so called "fast mode" is used. This, as the name implies, will translate the DOM very fast, but will break states (i.E. autofocus won't work anymore). If this is a problem, do as following:
 ```js
 langjs.initLang(["de","fr"],false); <-- false
 ```
 This is less performant but is less obstrusive to the state / events.
+
+### Quiet
+If you add a thrid parameter to initLang, you can either surpress or explicitly enable log messages to console. In a productive environment, you probably want to set it to 'true' = quiet.
 
 ## Usage
 ```html
