@@ -8,7 +8,7 @@ langjs.addTranslation("surname","fr","Nom de famille");
 langjs.addTranslation("name","fr","Nom");
 ```
 
-Initialization:
+Usage:
 ```html
 <!-- example on how to add translation into HTML -->
 Surname = <script>langjs.fillString('surname')</script>
