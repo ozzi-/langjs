@@ -1,4 +1,4 @@
-# jslanguage
+# languagejs
 ## Initialization
 ```js
 langjs.initLang(["de","fr"]); // first language will be the default 
