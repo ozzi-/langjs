@@ -1,5 +1,5 @@
 # langjs
-langjs is a leightweight language framework with no dependencies. 
+langjs is a lightweight language framework with no dependencies. 
 It enables to support multiple languages in your web frontend.
 
 langjs will try to detect the users langauge and if supported use said language. If no preferred language can be detected, langjs defaults to the first declared language in your code. Furthmore, langjs will set a cookie to store the users language.
