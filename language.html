@@ -1,44 +1,66 @@
 <!doctype html>
- 	<script src="language.js"></script> 
- 	<!-- init langjs -->
-	<script>
-		langjs.initLang(["de","fr"],false); // first language will be the default 
-		langjs.addTranslation("surname","de","Nachnamaen");
-		langjs.addTranslation("name","de","Name");
-		langjs.addTranslation("surname","fr","Nom de famille");
-		langjs.addTranslation("name","fr","Nom");
-		langjs.addTranslation("html","de","<b>Escaped?</b>",true);
-		langjs.addTranslation("html","fr","<b>Escaped?</b>",true);
-
-		function saySurname(){
-			alert("Surname is = "+langjs.getString('surname'));
-		}
-
-		function getCurrentLang(){
-			alert(langjs.getCurrentLanguage());
-		}
-
-		function injectString(){
-			alert(langjs.injectIntoString("injected into the alert string ... { % surname % } = {%surname%}"));
-		}
-
-	</script>
+	<head>
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+		<meta content="utf-8" http-equiv="encoding">
+	</head>
 	<body>
+		<!-- include language.js -->
+		<script src="language.js"></script> 
+		<script>
+			// Initialization is done as follows:
+			langjs.initLang(["de","fr"], false); 
+			// Language will default to "de" as its the first language declared in the array
+			// The parameter 'false' will use disable fast mode, this might take longer but does not mess with the DOM state (i.E. autofocus will still work) 
+
+
+			// Add translation strings
+			langjs.addTranslation("surname","de","Nachnamaen");
+			langjs.addTranslation("name","de","Name");
+			langjs.addTranslation("surname","fr","Nom de famille");
+			langjs.addTranslation("name","fr","Nom");
+			langjs.addTranslation("html","de","<b>Escaped?</b>",true);
+			langjs.addTranslation("html","fr","<b>Escaped?</b>",true);
+
+
+			// Listen to the following event to know when translation has been performed
+			window.document.addEventListener("langjsDoneTranslating", translationDone, false);
+
+
+			function saySurname(){
+				alert("Surname is = "+langjs.getString('surname'));
+			}
+
+			function getCurrentLang(){
+				alert(langjs.getCurrentLanguage());
+			}
+
+			function injectString(){
+				alert(langjs.injectIntoString("injected into the alert string ... { % surname % } = {%surname%}"));
+			}
+
+			function translationDone(){
+				console.log("Translate done - callback");
+			}
+
+		</script>
+
 	 	<!-- example on how to add translation into HTML -->
 		Surname = <script>langjs.fillString('surname')</script>.
 		<br>
 		Name = <script>langjs.fillString('name')</script>.
-		<br><br>
-
+		<br>
 		<!-- example of automatic injection using the {%TRANSLATION_KEY%} placeholder -->
 		<span>Name (injected) = {%name%}</span>
 		<br><br>
-		<input type="text" id="name" name="name" value="{%surname%}" autofocus>
+		<input type="text" value="Even in an attribute -> {%surname%}" size="50" autofocus>
+		<br><br>
+
 		<!-- example on how to get in a JS context / change language -->
 		<button onclick="saySurname()">Say Surname</button>
 		<button onclick="getCurrentLang()">Get Current Language</button>
 		<button onclick="langjs.setLanguage('de',true);">Set Language to German</button>
 		<button onclick="langjs.setLanguage('fr',true);">Set Language to French</button>
 		<button onclick="injectString()">Inject into string during runtime</button>
+		<button disabled>Does it work with buttons? >>{%name%}<< of course</button>
 	</body>
 </html>
