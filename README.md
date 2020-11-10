@@ -1,11 +1,13 @@
 # jslanguage
 Initialization:
 ```js
-langjs.initLang(["de","fr"]); // first language will be the default 
-langjs.addTranslation("surname","de","Nachnamen");
-langjs.addTranslation("name","de","Name");
-langjs.addTranslation("surname","fr","Nom de famille");
-langjs.addTranslation("name","fr","Nom");
+window.addEventListener('load', function {
+  langjs.initLang(["de","fr"]); // first language will be the default 
+  langjs.addTranslation("surname","de","Nachnamen");
+  langjs.addTranslation("name","de","Name");
+  langjs.addTranslation("surname","fr","Nom de famille");
+  langjs.addTranslation("name","fr","Nom");
+});
 ```
 
 Initialization:
