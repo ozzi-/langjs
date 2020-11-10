@@ -3,14 +3,14 @@
 // ************
  "use strict";
 
-window.addEventListener('load', function() {       
-  langjs.injectIntoBody();
-});   
+window.addEventListener('load', function () {
+	langjs.injectIntoBody();
+});
 
 var langjs = {
 
 	languages: {},
-
+	
 	// ****
 	// CODE
 	// ****
@@ -19,6 +19,7 @@ var langjs = {
 
 	initLang: function (languagesToInit){
 		console.log("langjs init");
+
 		for (var i = 0; i < languagesToInit.length; i++) {
 			this.languages[languagesToInit[i]] = {};
 		}
@@ -39,7 +40,7 @@ var langjs = {
 
 	injectIntoBody: function(){
 		var body = window.document.body.innerHTML;
-		window.document.body.innerHTML = this.injectIntoString(body);
+		window.document.body.innerHTML = this.injectIntoString(body);	
 	},
 
 	injectIntoString: function(strng){
@@ -50,7 +51,9 @@ var langjs = {
 		return result;
 	},
 
-	addTranslation: function (key,lang,val){
+	addTranslation: function (key,lang,val,escapeHTML){
+		escapeHTML = (typeof escapeHTML !== 'undefined')?escapeHTML:false;
+		val = escapeHTML ? this.escapeHtml(val) : val;
 		this.languages[lang][key] = val;
 	},
 
@@ -67,17 +70,24 @@ var langjs = {
 
 	getString: function (key){
 		if(this.languages[this.currentLanguage][key] !== undefined ){
-			return this.languages[this.currentLanguage][key];	
+			return this.languages[this.currentLanguage][key];
 		}
 		return "{missing translation}"
 	},
 
 	fillString: function (key){
 		if(this.languages[this.currentLanguage][key] !== undefined ){
-			document.write(this.languages[this.currentLanguage][key]);	
+			document.write(this.languages[this.currentLanguage][key]);
 		}else{
-			document.write("{missing translation}");		
+			document.write("{missing translation}");
 		}
+	},
+
+	escapeHtml: function (inp){
+		var text = document.createTextNode(inp);
+		var p = document.createElement('p');
+		p.appendChild(text);
+		return p.innerHTML;
 	},
 
 	// *******
